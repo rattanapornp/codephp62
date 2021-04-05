@@ -1,59 +1,46 @@
-<html>
+<?php
+require_once 'connectdb.php';
+
+$strSQL = "SELECT id, username, status FROM user WHERE 1";
+$result = $myconn->query($strSQL);
+
+
+?>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <title>รายชื่อนักศึกษา</title>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-    <script src="https://kit.fontawesome.com/360e5c13ee.js" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-        $(function() {
-            $().ready(function() {
-                $.ajax({
-                    type: "POST",
-                    url: "db/query.php",
-                    success: function(html) { // this happens after we get results
-                        $("#results").show();
-                        $("#results").append(html);
-                    }
-                });
-            });
-        });
-    </script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+    <title>Document</title>
 </head>
 
 <body>
-
-    <input type="button" value="Add" />
-
-    
-    <table width="650" border="1" id="results">
+    <table border="1" width="100%">
         <tr>
-            <th width="91">
-                <div align="center">Studen ID </div>
-            </th>
-            <th width="98">
-                <div align="center">Name </div>
-            </th>
-            <th width="198">
-                <div align="center">Mobile </div>
-            </th>
-            <th width="50">
-                <div align="center">Edit </div>
-            </th>
-            <th width="80">
-                <div align="center">Delete </div>
-            </th>
+            <td> รหัส </td>
+            <td> ชื่อผู้ใช้</td>
+            <td> สถานะ</td>
+            <td> แก้ไข</td>
+            <td> ลบ</td>
+        <tr>
+            <?php
+            while ($row = $result->fetch_array()) {
+                //echo $row["username"] . "<br>";
+            ?>
+        <tr>
+            <td><?= $row["id"] ?></td>
+            <td><?= $row["username"] ?></td>
+            <td><?= $row["status"] ?></td>
+            <td><a href="update.php?id=<?= $row["id"] ?>&username=<?= $row["username"] ?>&status=<?= $row["status"] ?>"><i class="fas fa-edit"></i></a></td>
+            <td><a href="delete.php?id=<?= $row["id"] ?>"><i class="fas fa-trash"></i></a></td>
         </tr>
-
-    </table>
-
     <?php
-    $mysqli_statement->close();
-    $mysqli->close();
+            }
     ?>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </table>
 </body>
 
 </html>
